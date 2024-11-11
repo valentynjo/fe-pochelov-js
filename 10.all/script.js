@@ -75,4 +75,4 @@ wellcomUser(["Андрій", "Олена", "Ігор"], hiUser);
 const wellcomUserArrow = (users, hiUser) => {
     users.forEach(user => hiUser(user));
 };
-wellcomUserArrow(["Анна", "Петро", "Марія"], user => console.log(`Вітаю ${user}`));
+wellcomUserArrow(["Анна", "Петро", "Марія"], hiUser);
