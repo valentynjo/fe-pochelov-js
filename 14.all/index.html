@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Домашня робота</title>
+</head>
+<body>
+    <h1>Домашня робота</h1>
+    <h2>Робота з Spread, Rest, typeof, Math, Date, та селекторами</h2>
+
+    <script>
+        // Spread
+        function mergeArrays(arr1, arr2) {
+            const mergedArray = [...arr1, ...arr2];
+            console.log("Новий масив:", mergedArray);
+            return mergedArray;
+        }
+        mergeArrays([1, 2, 3], [4, 5, 6]);
+
+        // Rest
+        function stringAndRest(first, ...rest) {
+            console.log(`Рядок: ${first}`);
+            console.log("Масив решти аргументів:", rest);
+        }
+        stringAndRest("Привіт", 1, 2, 3, "ще щось");
+
+        function calculateAverage(...numbers) {
+            const sum = numbers.reduce((acc, num) => acc + num, 0);
+            const average = sum / numbers.length || 0;
+            console.log(`Середнє значення: ${average}`);
+            return average;
+        }
+        calculateAverage(1, 2, 3, 4, 5);
+
+        // TypeOf
+        function printType(value) {
+            console.log(`Тип: ${typeof value}`);
+        }
+        printType(42);
+        printType("Текст");
+        printType(true);
+
+        function checkType(value) {
+            if (typeof value === 'number') {
+                console.log("Це число");
+            } else if (typeof value === 'string') {
+                console.log("Це рядок");
+            } else {
+                console.log("Це інший тип");
+            }
+        }
+        checkType(42);
+        checkType("Привіт");
+        checkType([]);
+
+        // Робота з селекторами
+        console.log("Робота з селекторами:");
+        // HTML-елементи
+        const header = document.getElementById('main-header');
+        console.log(header);
+
+        const sections = document.getElementsByClassName('section-class');
+        console.log(sections);
+
+        const divs = document.getElementsByTagName('div');
+        console.log(divs);
+
+        // Робота зі списком
+        const firstItem = document.querySelector('ul li:first-child');
+        console.log("Перший елемент списку:", firstItem);
+
+        const lastItem = document.querySelector('ul li:last-child');
+        console.log("Останній елемент списку:", lastItem);
+
+        const thirdItem = document.querySelector('ul li:nth-child(3)');
+        console.log("Третій елемент списку:", thirdItem);
+
+        const allItems = document.querySelectorAll('ul li');
+        console.log("Усі елементи списку:", allItems);
+
+        const itemsArray = Array.from(allItems);
+        console.log("Масив з елементів списку:", itemsArray);
+    </script>
+
+    <header id="main-header" class="header-class">Заголовок</header>
+    <section id="main-section" class="section-class">Секція</section>
+    <div id="main-div" class="div-class">Див</div>
+
+    <ul>
+        <li>Перший елемент</li>
+        <li>Другий елемент</li>
+        <li>Третій елемент</li>
+        <li>Четвертий елемент</li>
+        <li>П'ятий елемент</li>
+    </ul>
+</body>
+</html>

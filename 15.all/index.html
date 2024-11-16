@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Домашня робота</title>
+</head>
+<body>
+    <script>
+        // 2) Створення header
+        const header = document.createElement('header');
+        header.style.padding = '50px';
+        header.style.backgroundColor = 'yellow';
+        header.style.textAlign = 'center';
+        document.body.appendChild(header);
+
+        // 3) Створення меню
+        const menuData = [
+            { name: 'Головна', url: '/' },
+            { name: 'Про нас', url: '/about' },
+            { name: 'Послуги', url: '/services' },
+            { name: 'Контакти', url: '/contact' }
+        ];
+
+        menuData.forEach(item => {
+            const link = document.createElement('a');
+            link.textContent = item.name;
+            link.href = item.url;
+            link.style.margin = '0 10px';
+            header.appendChild(link);
+        });
+
+        // 4) Додавання target="_blank" для всіх посилань
+        const links = header.querySelectorAll('a');
+        links.forEach(link => link.setAttribute('target', '_blank'));
+
+        // 5) Створення блоку з 50 div
+        const flexContainer = document.createElement('div');
+        flexContainer.style.display = 'flex';
+        flexContainer.style.flexWrap = 'wrap';
+        flexContainer.style.gap = '10px';
+        flexContainer.style.marginTop = '20px';
+        document.body.appendChild(flexContainer);
+
+        for (let i = 0; i < 50; i++) {
+            const circle = document.createElement('div');
+            circle.style.width = '50px';
+            circle.style.height = '50px';
+            circle.style.borderRadius = '50%';
+            circle.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`; // Випадковий колір
+            circle.classList.add('circle-element');
+            flexContainer.appendChild(circle);
+        }
+
+        // 7) Додавання елементів перед або після контейнера
+        const container = document.createElement('div');
+        container.style.marginTop = '20px';
+        container.style.padding = '20px';
+        container.style.border = '1px solid black';
+        container.textContent = 'Контейнер';
+        document.body.appendChild(container);
+
+        const elementsArray = [
+            { text: 'Елемент 1', usePrepend: true },
+            { text: 'Елемент 2', usePrepend: false },
+            { text: 'Елемент 3', usePrepend: true }
+        ];
+
+        elementsArray.forEach(element => {
+            const p = document.createElement('p');
+            p.textContent = element.text;
+            if (element.usePrepend) {
+                container.parentNode.insertBefore(p, container);
+            } else {
+                container.parentNode.insertBefore(p, container.nextSibling);
+            }
+        });
+    </script>
+</body>
+</html>
