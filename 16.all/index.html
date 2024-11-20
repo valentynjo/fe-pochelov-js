@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Домашня робота</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+        #colorText {
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            margin-top: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: xx-large;
+        }
+        #resizeElement {
+            display: inline-block;
+            background-color: #87CEFA;
+            border-radius: 10px;
+            text-align: center;
+            line-height: 100px;
+            margin: 10px 0;
+            transition: 0.3s ease-in-out;
+        }
+        #elementsContainer div {
+            background-color: #ffcccb;
+            border: 1px solid #ff7f7f;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 5px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+        #elementsContainer div:hover {
+            background-color: #ff9999;
+        }
+        .blockContainer {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .blockContainer button {
+            width: 100px;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .blockContainer button:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            padding: 0;
+            margin: 10px 0;
+            list-style: none;
+        }
+        ul li {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: inline-flex;
+        }
+        ul.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>1. onclick</h2>
+    <button id="colorButton">Змінити колір</button>
+    <p id="colorText">Текст змінює колір</p>
+
+    <h2>2. ondblclick</h2>
+    <div id="resizeElement" style="width: 100px; height: 100px;">Подвійний клік</div>
+
+    <h2>3. addEventListener і removeEventListener</h2>
+    <button id="counterButton">Додати 1</button>
+    <p id="counter" style="font-size: 18px; font-weight: bold;">Лічильник: 0</p>
+
+    <h2>4. onclick на 10 елементах</h2>
+    <button id="resetElements">Скинути елементи</button>
+    <div id="elementsContainer"></div>
+
+    <h2>5. event.target</h2>
+    <div class="blockContainer">
+        <button class="button first">Кнопка 1</button>
+        <button class="button second">Кнопка 2</button>
+        <button class="button third">Кнопка 3</button>
+    </div>
+
+    <h2>6. onclick + робота з CSS</h2>
+    <button id="toggleMenu">Відкрити меню</button>
+    <ul id="menu" class="hidden">
+        <li><a href="#">Посилання 1</a></li>
+        <li><a href="#">Посилання 2</a></li>
+        <li><a href="#">Посилання 3</a></li>
+    </ul>
+
+    <script>
+        // 1. onclick
+        const colorButton = document.getElementById('colorButton');
+        const colorText = document.getElementById('colorText');
+        const getRandomColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+        colorButton.onclick = () => {
+            colorText.style.color = getRandomColor();
+        };
+
+        // 2. ondblclick
+        const resizeElement = document.getElementById('resizeElement');
+        resizeElement.ondblclick = () => {
+            resizeElement.style.width = `${resizeElement.offsetWidth * 2}px`;
+            resizeElement.style.height = `${resizeElement.offsetHeight * 2}px`;
+        };
+
+        // 3. addEventListener і removeEventListener
+        const counterButton = document.getElementById('counterButton');
+        const counterText = document.getElementById('counter');
+        let counter = 0;
+        const incrementCounter = () => {
+            counter++;
+            counterText.textContent = `Лічильник: ${counter}`;
+            if (counter > 9) {
+                counterButton.disabled = true;
+            }
+        };
+        counterButton.addEventListener('click', incrementCounter);
+
+        // 4. onclick на 10 елементах
+        const elementsContainer = document.getElementById('elementsContainer');
+        const resetElements = document.getElementById('resetElements');
+        const createElements = () => {
+            elementsContainer.innerHTML = '';
+            for (let i = 0; i < 10; i++) {
+                const element = document.createElement('div');
+                element.textContent = `Елемент ${i + 1}`;
+                element.onclick = () => element.remove();
+                elementsContainer.appendChild(element);
+            }
+        };
+        resetElements.onclick = createElements;
+        createElements();
+
+        // 5. event.target
+        const blockContainer = document.querySelector('.blockContainer');
+        blockContainer.addEventListener('click', (event) => {
+            if (event.target.classList.contains('button')) {
+                alert(`Клікнуто: ${event.target.textContent}`);
+            }
+        });
+
+        // 6. onclick + робота з CSS
+        const toggleMenu = document.getElementById('toggleMenu');
+        const menu = document.getElementById('menu');
+        toggleMenu.onclick = () => {
+            const isHidden = menu.classList.toggle('hidden');
+            toggleMenu.textContent = isHidden ? 'Відкрити меню' : 'Закрити меню';
+        };
+    </script>
+</body>
+</html>
