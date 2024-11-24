@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конвертер валют</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e3f2fd, #90caf9);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .converter-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+            padding: 20px 30px;
+            width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #0288d1;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-top: 5px;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #388e3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="converter-container">
+        <h1>Конвертер валют</h1>
+        <div class="input-group">
+            <label for="amount">Сума грошей:</label>
+            <input type="number" id="amount" placeholder="Введіть суму" value="100" />
+        </div>
+        <div class="input-group">
+            <label for="fromCurrency">З:</label>
+            <select id="fromCurrency">
+                <option value="USD" selected>USD - Долар США</option>
+                <option value="EUR">EUR - Євро</option>
+                <option value="UAH">UAH - Гривня</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="toCurrency">У:</label>
+            <select id="toCurrency">
+                <option value="UAH" selected>UAH - Гривня</option>
+                <option value="USD">USD - Долар США</option>
+                <option value="EUR">EUR - Євро</option>
+            </select>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const exchangeRates = {
+            USD: { UAH: 37.5, EUR: 0.94, USD: 1 },
+            EUR: { UAH: 40.0, USD: 1.06, EUR: 1 },
+            UAH: { USD: 0.027, EUR: 0.025, UAH: 1 },
+        };
+
+        const amountInput = document.getElementById('amount');
+        const fromCurrencySelect = document.getElementById('fromCurrency');
+        const toCurrencySelect = document.getElementById('toCurrency');
+        const resultDiv = document.getElementById('result');
+
+        function calculateConversion() {
+            const amount = parseFloat(amountInput.value) || 0;
+            const fromCurrency = fromCurrencySelect.value;
+            const toCurrency = toCurrencySelect.value;
+
+            if (exchangeRates[fromCurrency] && exchangeRates[fromCurrency][toCurrency]) {
+                const rate = exchangeRates[fromCurrency][toCurrency];
+                const convertedAmount = (amount * rate).toFixed(2);
+                resultDiv.textContent = `${amount} ${fromCurrency} = ${convertedAmount} ${toCurrency}`;
+                resultDiv.style.color = '#388e3c';
+            } else {
+                resultDiv.textContent = 'Обрані валюти не підтримуються.';
+                resultDiv.style.color = '#d32f2f';
+            }
+        }
+
+        amountInput.addEventListener('input', calculateConversion);
+        fromCurrencySelect.addEventListener('change', calculateConversion);
+        toCurrencySelect.addEventListener('change', calculateConversion);
+
+        calculateConversion();
+    </script>
+</body>
+</html>

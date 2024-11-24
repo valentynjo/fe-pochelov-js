@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Домашня робота</title>
+    <style>
+        .hover-area {
+            width: 200px;
+            height: 200px;
+            background-color: lightgray;
+            text-align: center;
+            line-height: 200px;
+            font-size: 20px;
+            border: 2px solid black;
+            transition: background-color 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .image-container img {
+            width: 200px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .game-field {
+            width: 500px;
+            height: 300px;
+            border: 2px solid black;
+            position: relative;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .player {
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            position: absolute;
+            top: 125px;
+            left: 225px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <h1>1</h1>
+    <div class="hover-area" id="hoverArea">Наведи на мене!</div>
+
+    <h1>2</h1>
+    <div class="image-container">
+        <img src="https://via.placeholder.com/200" alt="Приклад зображення" id="hoverImage">
+    </div>
+
+    <h1>3</h1>
+    <div class="game-field" id="gameField">
+        <div class="player" id="player"></div>
+    </div>
+
+    <script>
+        // Завдання 1: onMouseOver і onMouseOut (зміна кольору області)
+        const hoverArea = document.getElementById('hoverArea');
+
+        hoverArea.onmouseover = () => {
+            hoverArea.style.backgroundColor = 'lightblue';
+            hoverArea.textContent = 'Курсор тут!';
+        };
+
+        hoverArea.onmouseout = () => {
+            hoverArea.style.backgroundColor = 'lightgray';
+            hoverArea.textContent = 'Наведи на мене!';
+        };
+
+        // Завдання 2: onMouseOver і onMouseOut (збільшення зображення)
+        const hoverImage = document.getElementById('hoverImage');
+
+        hoverImage.onmouseover = () => {
+            hoverImage.style.transform = 'scale(1.2)';
+            hoverImage.style.boxShadow = '0 0 20px rgba(0, 0, 0, 0.5)';
+        };
+
+        hoverImage.onmouseout = () => {
+            hoverImage.style.transform = 'scale(1)';
+            hoverImage.style.boxShadow = 'none';
+        };
+
+        // Завдання 3: keyup (рух об'єкта за допомогою стрілок)
+        const player = document.getElementById('player');
+        const gameField = document.getElementById('gameField');
+
+        let playerPosition = { top: 125, left: 225 };
+
+        document.addEventListener('keydown', (event) => {
+            const step = 10;
+            switch (event.key) {
+                case 'ArrowUp':
+                    if (playerPosition.top > 0) playerPosition.top -= step;
+                    break;
+                case 'ArrowDown':
+                    if (playerPosition.top < gameField.clientHeight - player.clientHeight) {
+                        playerPosition.top += step;
+                    }
+                    break;
+                case 'ArrowLeft':
+                    if (playerPosition.left > 0) playerPosition.left -= step;
+                    break;
+                case 'ArrowRight':
+                    if (playerPosition.left < gameField.clientWidth - player.clientWidth) {
+                        playerPosition.left += step;
+                    }
+                    break;
+            }
+            player.style.top = `${playerPosition.top}px`;
+            player.style.left = `${playerPosition.left}px`;
+        });
+    </script>
+</body>
+</html>
