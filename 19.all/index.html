@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Домашня робота</title>
+    <style>
+        :root {
+            --color1: #FF5733;
+            --color2: #33FF57;
+            --color3: #3357FF;
+            --color4: #F3FF33;
+            --color5: #FF33F3;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            transition: background-color 0.5s;
+        }
+        .change-color-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #0288d1;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .change-color-btn:hover {
+            background-color: #026ca1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Домашня робота</h1>
+
+    <!-- Зміна кольору фону -->
+    <button class="change-color-btn" id="changeColorBtn">Змінити колір фону</button>
+
+    <script>
+        // Завдання 1: Зміна кольору фону сторінки
+        const colors = [
+            'var(--color1)',
+            'var(--color2)',
+            'var(--color3)',
+            'var(--color4)',
+            'var(--color5)'
+        ];
+
+        document.getElementById('changeColorBtn').addEventListener('click', () => {
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            document.body.style.backgroundColor = randomColor;
+        });
+
+        // Завдання 2: Знаходження всіх великих літер у тексті
+        let textStr = "    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos itaque vero laborum fugit harum! Quia, cumque necessitatibus nemo veniam odit dolor impedit aspernatur, ipsa vitae minima quasi doloribus repellendus cupiditate!";
+        let capitalLetters = textStr.match(/[A-Z]/g) || [];
+        console.log("Великі літери:", capitalLetters);
+
+        // Завдання 3: Вибір числових значень з строки
+        let operation = "5 плюс 7 = 3";
+        let numbers = operation.match(/\d+/g) || [];
+        console.log("Числові значення:", numbers);
+
+        // Завдання 4: Знаходження слів із певною кількістю символів
+        let wordsWithFiveLetters = textStr.match(/\b\w{5}\b/g) || [];
+        console.log("Слова з 5 букв:", wordsWithFiveLetters);
+    </script>
+</body>
+</html>

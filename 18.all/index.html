@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Домашня робота</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .tasks-list li {
+            margin: 5px 0;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .tasks-list button {
+            background-color: #ff5252;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .tasks-list button:hover {
+            background-color: #ff1744;
+        }
+    </style>
+</head>
+<body>
+    <h1>Домашня робота</h1>
+
+    <!-- Форма з вибором улюбленого кольору -->
+    <div class="form-group">
+        <label>Виберіть ваш улюблений колір:</label>
+        <label><input type="radio" name="color" value="red"> Червоний</label>
+        <label><input type="radio" name="color" value="green"> Зелений</label>
+        <label><input type="radio" name="color" value="blue"> Синій</label>
+    </div>
+
+    <!-- Форма для вибору хобі -->
+    <div class="form-group">
+        <label>Ваші хобі:</label>
+        <label><input type="checkbox" value="Читання"> Читання</label>
+        <label><input type="checkbox" value="Спорт"> Спорт</label>
+        <label><input type="checkbox" value="Музика"> Музика</label>
+        <p>Вибрані хобі: <span id="hobbyList">немає</span></p>
+    </div>
+
+    <!-- Форма з вибором країни -->
+    <div class="form-group">
+        <label for="country">Виберіть країну:</label>
+        <select id="country">
+            <option value="" selected>-- Виберіть країну --</option>
+            <option value="Ukraine">Україна</option>
+            <option value="USA">США</option>
+            <option value="Germany">Німеччина</option>
+        </select>
+        <p id="countryInfo">Інформація про країну буде тут.</p>
+    </div>
+
+    <!-- Форма для оцінювання обслуговування -->
+    <div class="form-group">
+        <label>Оцініть якість обслуговування:</label>
+        <label><input type="radio" name="rating" value="1"> 1</label>
+        <label><input type="radio" name="rating" value="2"> 2</label>
+        <label><input type="radio" name="rating" value="3"> 3</label>
+        <label><input type="radio" name="rating" value="4"> 4</label>
+        <label><input type="radio" name="rating" value="5"> 5</label>
+        <p id="ratingMessage"></p>
+    </div>
+
+    <!-- Динамічний список задач -->
+    <div class="form-group">
+        <label for="taskInput">Додайте нову задачу:</label>
+        <input type="text" id="taskInput" placeholder="Введіть задачу">
+        <button id="addTaskButton">Додати</button>
+        <ul id="tasksList" class="tasks-list"></ul>
+    </div>
+
+    <script>
+        // Форма з вибором улюбленого кольору
+        document.querySelectorAll('input[name="color"]').forEach(radio => {
+            radio.addEventListener('change', event => {
+                document.body.style.backgroundColor = event.target.value;
+            });
+        });
+
+        // Форма для вибору хобі
+        const hobbyListElement = document.getElementById('hobbyList');
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const selectedHobbies = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+                    .map(checkbox => checkbox.value);
+                hobbyListElement.textContent = selectedHobbies.length > 0 ? selectedHobbies.join(', ') : 'немає';
+            });
+        });
+
+        // Форма з вибором країни
+        const countryInfo = document.getElementById('countryInfo');
+        document.getElementById('country').addEventListener('change', event => {
+            const country = event.target.value;
+            let info = '';
+            switch (country) {
+                case 'Ukraine':
+                    info = 'Україна - столиця Київ, населення ~41 млн.';
+                    break;
+                case 'USA':
+                    info = 'США - столиця Вашингтон, населення ~331 млн.';
+                    break;
+                case 'Germany':
+                    info = 'Німеччина - столиця Берлін, населення ~83 млн.';
+                    break;
+                default:
+                    info = 'Інформація про країну буде тут.';
+            }
+            countryInfo.textContent = info;
+        });
+
+        // Форма для оцінювання обслуговування
+        const ratingMessage = document.getElementById('ratingMessage');
+        document.querySelectorAll('input[name="rating"]').forEach(radio => {
+            radio.addEventListener('change', event => {
+                ratingMessage.textContent = `Дякуємо за вашу оцінку: ${event.target.value}!`;
+            });
+        });
+
+        // Динамічний список задач
+        const taskInput = document.getElementById('taskInput');
+        const addTaskButton = document.getElementById('addTaskButton');
+        const tasksList = document.getElementById('tasksList');
+
+        addTaskButton.addEventListener('click', () => {
+            const taskValue = taskInput.value.trim();
+            if (taskValue) {
+                const li = document.createElement('li');
+                li.textContent = taskValue;
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Видалити';
+                deleteButton.addEventListener('click', () => li.remove());
+                li.appendChild(deleteButton);
+                tasksList.appendChild(li);
+                taskInput.value = '';
+            }
+        });
+    </script>
+</body>
+</html>
